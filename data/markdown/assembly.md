@@ -28,7 +28,7 @@ Notes: http://www.swansontec.com/sregisters.html
 
 
 ## Sizes
-![RAX, EAX, AX, AH, AL](../images/register_size.png)
+![RAX, EAX, AX, AH, AL](/data/images/register_size.png)
 <small>From "What Has My Compiler Done for Me Lately", M. Godbolt</small>
 
 
