@@ -87,12 +87,20 @@ Trust your compiler.
 <iframe width="900px" height="600px" src="https://godbolt.org/embed-ro#g:!((g:!((h:codeEditor,i:(j:1,source:'%23include+%3Cmemory%3E%0Ausing+namespace+std%3B%0A%0Ausing+Time+%3D+int%3B%0Ausing+Speed+%3D+int%3B%0Ausing+Distance+%3D+int%3B%0A%0Astruct+Ship+%7B%0A++virtual+Distance+fly(Speed,+Time)+%3D+0%3B%0A%7D%3B%0A%0Astruct+Firefly+:+public+Ship+%7B%0A++static+constexpr+Speed+max_speed+%3D+7%3B%0A++virtual+Distance+fly(Speed+speed,+Time+time)+%7B%0A++++return+speed+*+time%3B%0A++%7D%0A%7D%3B%0A%0Astruct+Captain+%7B%0A++Distance+run(Speed+speed,+Time+time)+%7B%0A++++return+ship.fly(speed,+time)%3B%0A++%7D%0Aprivate:%0A++Firefly+ship%3B%0A%7D%3B%0A%0ADistance+flee_from_feds(Time+time)+%7B%0A++Captain+mal%3B%0A++return+mal.run(Firefly::max_speed,+time)%3B%0A%7D'),l:'5',n:'0',o:'C%2B%2B+source+%231',t:'0')),j:__glMaximised,k:100,l:'4',m:100,n:'0',o:'',s:0,t:'0')),version:4">
 	https://godbolt.org/g/a1ZH1x
 </iframe>
+Notes:
+This is the code that I will be playing around with.
+* `Ship` interface
+* `Firefly` implementation
+* `Captain` that owns a `Firefly`
+* `flee_from_feds` is our test function
 
 
 ###### Watch How I Soar
 <iframe width="900px" height="600px" src="https://godbolt.org/embed-ro#g:!((g:!((g:!((h:codeEditor,i:(j:1,source:'%23include+%3Cmemory%3E%0Ausing+namespace+std%3B%0A%0Ausing+Time+%3D+int%3B%0Ausing+Speed+%3D+int%3B%0Ausing+Distance+%3D+int%3B%0A%0Astruct+Ship+%7B%0A++virtual+Distance+fly(Speed,+Time)+%3D+0%3B%0A%7D%3B%0A%0Astruct+Firefly+:+public+Ship+%7B%0A++static+constexpr+Speed+max_speed+%3D+7%3B%0A++virtual+Distance+fly(Speed+speed,+Time+time)+%7B%0A++++return+speed+*+time%3B%0A++%7D%0A%7D%3B%0A%0Astruct+Captain+%7B%0A++Distance+run(Speed+speed,+Time+time)+%7B%0A++++return+ship.fly(speed,+time)%3B%0A++%7D%0Aprivate:%0A++Firefly+ship%3B%0A%7D%3B%0A%0ADistance+flee_from_feds(Time+time)+%7B%0A++Captain+mal%3B%0A++return+mal.run(Firefly::max_speed,+time)%3B%0A%7D'),l:'5',n:'0',o:'C%2B%2B+source+%231',t:'0')),k:50,l:'4',m:100,n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:g490,filters:(b:'0',binary:'1',commentOnly:'0',demangle:'0',directives:'0',execute:'1',intel:'0',trim:'0',undefined:'1'),libs:!(),options:'-O3+-mtune%3Datom+-std%3Dc%2B%2B14',source:1),l:'5',n:'0',o:'x86-64+gcc+4.9.0+(Editor+%231,+Compiler+%231)',t:'0')),k:50,l:'4',m:100,n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4">
 	https://godbolt.org/g/HiX5Wa
 </iframe>
+Notes:
+Here is the assembly. Simple, efficient, shiny.
 
 
 ###### Who's Flying this thing?
@@ -124,7 +132,7 @@ Distance flee_from_feds(Time time) {
 }
 ```
 Notes:
-Change Captain to take a reference instead of a fixed member.
+Change Captain to take a reference, `Ship&`, instead of a fixed member, `Firefly`.
 
 
 ###### Who's Flying This Thing? ...
@@ -160,15 +168,16 @@ struct Captain {
 };
 ```
 Notes:
-Add virtual maxSpeed instead of passing it into run(). Expect this to be virtual function call overhead.
+Add `virtual maxSpeed` instead of passing it into run(). 
+<br>Expect this to be virtual function call overhead. Every call to `run` requires a virtual lookup for `maxSpeed`.
 
 
 ###### Add virtual maxSpeed ...
 <iframe width="900px" height="600px" src="https://godbolt.org/embed-ro#z:OYLghAFBqd5TKALEBjA9gEwKYFFMCWALugE4A0BIEAViAIzkDO6ArqatiAOQCkATAGYCAO1QAbVjgDUvQQGEAttkVkAnnNy8ADAEFWTUcGkiAhsqYAHU52lMimOQCEdu1waPSAKgWWzBACLSokTO7oYixgDKltjYmP5BIWF6HpHSAQT2pmLYicEioYIueq72pKyoRNJRSASWsgDsJbrS0gBuBKRErKbiGVlEObYAZuJqEDFxmOTevtgAlPnaKW6NAatlRBVV0gBiXdhjatIg0pasAEbiBKg1dQ28za5t2US30hgi9tgAHpakGqxeLSRSmX4AfSs03yjVWbU63V6/Uy2Vy0mOk2BCWh8VmPj872USyeLTabVI2B6pBEdmx0gAVNIidh4U0NqV1ps9OVKtV5KZLENRE0ydIBULTKJJg9ZPwAGxMB4QpZnJX1CDqywq0VPDmtAZo2wVERYmG4mZzQnzEnPPTk6SU6m0rUAOkxFtmLIWbL1rgBBHapiIXBe93qcsVD02XOKrlcqKG6LGcQhI1I6EUafiTAgBLy3t19v2h2OdmwlJExA0ceLEuFtLB4k1FewVaIah9tYNTvYjb6rpNLcr1ddYMhnuZNpjAW4C3I4h4AFZuOQRDxtKv0Dx5AIXPwnHY2Bw8gJBPRV0QN3P5wBrEBL7QLngAFlXigf2ldCvlv7///lRo12vcht24VcmBAJ8r24Td5zgWAUAwHB8GIMhKGoOh%2BGYY9OB4M9RAkKRTwUZRVFIGstFSCJjDMCxrFsexHG7cJPHzfJkm7NJonpOQkkKVZuMNJNbD4goihaLYdmqWoI1JMNER6PphOGPJMSmPErUWZY2UU5EgRhccNMwCAli%2BewdJY2NJJ5bY%2BRLSkyzOC5rg%2BWTHjtA03g%2BcyQ3%2BQFjNBcEoV4wJpDhbsES6JSUUGVSMXGM0QUndjC3k4sKSpPs6RhJkWV9Lliz05TAqM7FTM%2BdBvmqdKDUy50gonbECv1P0WNs6TxUFBsiwNespVNdzIy1HU1QeTVlVtFxCoNRN4qHVKbV6h1expOwHndRK3TK6ZTK9adIvZf1SEDYNQ2LIaBCjeoZ25XQ5uTcRU3TTNs0wXNFuJZaHKOcZyxHDs2X6kUm2HNtqy7MVVv7cRB1YU1vRnOdn24FdgNgrcdz3Pcj3YUShH4S9rwWeckGwUwcFIag7wYbQn0Xbg33ID8XwATldRpBC57mee59HN1AngIKg8gYLgmnHxRwRV3XDHBfA0XifIBCEHgCAkMzSwCCeigqAgDBFC1nWQGANmnxGbWQ1ISCIEuEDLlEUwKJ4C9yAN5RCgAeREcYQJwMFIiev3DiqQNsEguW/mwVBWBDF3VxCbAGYF7ZfBA%2BGcAtkR4nj%2BcbkuSDIHndAhQIKqI4AWk9wRpArxQemzvjg0zWumL41BsYPegmZYPGuHoPPlxlkCwN%2BAAOeUK/lF9pGAVA7hfV12e0aQIFQkhATPRhxU17WKzlc8FiJjGSfIe9JYZpmP0l2WBbA4XoKVlX1bQXedYw/W34rE2zfIC3xCtjbO2csHZmGdtwV27s2xEG9r7OW/scjACDvAkO7x2jhxAlHGOccIEJ0KEnECqcPwnwXAQAu8Bi6l3LjwKuNc64N1ZIEZuihW4OHbp3Jw3dpAQVwlwfgg9UbDzlqPCeU8Z5zwXkvV0K816EA3gfbCO9DZ703gTI%2BisT6k3JpTamKMr6fn5pjBWkFH6aLPgYhm0tDHy2PuLFGhNrH3w0XY9B1sy7rhfEAA%3D%3D">
 	https://godbolt.org/g/LyKPau
 </iframe>
-Notes:
-Change to have virtual maxSpeed instead of passing speed into to run()
+Add `virtual maxSpeed` instead of passing it into run(). 
+<br>Expect this to be virtual function call overhead. Every call to `run` requires a virtual lookup for `maxSpeed`.
 
 
 #### Ship ref to Captain ctor
@@ -186,12 +195,17 @@ Distance flee_from_feds(Time time) {
   Captain mal(ship);
 }
 ```
+Notes:
+SKIP IF NEED TIME.<br>
+Just to make sure that it's not infering data from the function call, let's pass in a `Ship&`
 
 
 ###### Ship ref to Captain ctor ...
 <iframe width="900px" height="600px" src="https://godbolt.org/embed-ro#z:OYLghAFBqd5TKALEBjA9gEwKYFFMCWALugE4A0BIEAViAIzkDO6ArqatiAOQCkATAGYCAO1QAbVjgDUvQQGEAttkVkAnnNy8ADAEFWTUcGkiAhsqYAHU52lMimOQCEdu1waPSAKgWWzBACLSokTO7oYixgDKltjYmP5BIWF6HpHSAQT2pmLYicEioYIueq72pKyoRNJRSASWsgDsJbrS0gBuBKRErKbiGVlEObYAZuJqEDFxmOTevtgAlPnaKa0dXT19NbHx0oqmAB5T8RBLGCL2y6u8jQHXeuWV1QBiXdhjatIg0pasAEbiAioGp1Bo3FptbJEIHSc72bAHSykbbTPaHAD6VlRciCjVWbU63V6/Uy2Vy0g%2Bkx2CSx8VmPj80OUS3BrjabVI2B6pBEdmp0gAVNImdh8U07noCRtiSjdvsjtTTrD0BdqqzJezOdzefLMdSxTcJW5bvddI8qtJ5KZLENRE0IZbrbaRJNQbJ%2BAA2Jig9FLb7e%2BoQAOWX32w1sgZk2wVF0MvIilnNCMcrnsXnBgB0lMz8uOmFOswTBpNeiRBHapiIXAjtXq7q9oOuJuKrlcpKG5LGcXRI1I6EUPfiTAgceF80TDtenI%2BdmwnJExA0LY1Vptpjt%2B3EQbn2AXRDUCzFWrTaPEGZjECLy%2BNAW4C3I4h4AFZuOQRDxtK/0Dx5AIXPwnDsNgODyARBHoV8iA/O97wAaxAJ9tAfHgABZX0UBhBAzD1tFwvD8Lwxh324T9yG/bhXyYEAkKgki73IOBYBQDAcHwYgyEoag6H4ZhgM4HgwNECQpFAhRlFUUgly0VIImMMwLGsWx7Eca9wk8UccQKIoWjSaJ%2BU05Jr10yMO1sAzClNc1qlrMEkw1QlNhJQZhjySk83pccrmvKUiS2PM0QVaYlThNVAmkFZVObFoyiICoLSnd5xi%2BH5/kBYEbLDDUoRhEKESRWUEl1WkEk0vFvPWXynKjVzxipVFio8xlPPVNYU21PlUSFEViyNHzHIKgK82ClVLha9lpGPHkAr1aYetbKLWweWKnkdNc7TG1bnVdOsBAbepQ39UEgx9Cdww1dsXIm1hY3mMdmUy1qJtTKbM2zUEM1zRV7zuxY5tLUhy0rasNQy3bgybO5VL0C7O3Ebte37QdMGHUcEwetoEpnJgdz3JcHVBz1g3ybH50XMVV2dU9jvqQ9ysmnU%2BnPa7L3HCH6MfbgXzfaCyJ/P8/yA9gzKEfhIOghZ7yQbBTBwUhqDghhcOQ7g0PIDCAA4PQzFDubo3mKOYajyFoz8JfIeCPS1/hEIATnoRptBtlCPRQlD7eVwRX2I0jyLFuj70YhB4AgZj%2B0sAg4YoKgIAwRRw8jkBgBQm2kJGCOq1IKiID%2BHm/lEUxJJ4CDyFj5RCgAeREcYeZwfZIjhmu3iqctsCovWEWwVBWCrIvXxCbAOdI2LfB566cDTkR4l7%2B9AT%2BKjIHvdAbQIEaeAAWnLwRpDXxQeknnFK37bflJxVB%2BYA%2BhVZYIWuHoGfny9nnyIOTW15d6RgFQYEUIzG2M20aQEA2IkGRGBRglow4RznO6cCCw/amwVohZWqsMJIO9l%2BHglEjYm3ooHEOaBIGR04jHQhc5E7J1TunOcWcc56zzmYQu3Bi6l13EQSu1c9a1xyMABunCm7QnaK3HmHcu49yYX3QoA8ebDwwv7B8BA57wEXsvVe3AN78G3rva6opAiH0UMfBwp9z5OEvtISifEuD8HvpzR%2Betn6v3fp/b%2Bv9/6AOAWQGBPEIFxygaAkWcDjbi0ltLWW8tkHoQQkhdB%2BssE0SCebEAggsKNAoerfgKcnyCCfE%2BdWggdYc09rrH2mDAn%2B2saLIpGCDY4LNoIzOK93woSAA%3D%3D">
 	https://godbolt.org/g/gBRCqK
 </iframe>
+Notes:
+SKIP IF NEED TIME.<br>
 
 
 
@@ -215,7 +229,9 @@ Distance flee_from_feds(Time time) {
 }
 ```
 Notes:
-Want to pass ownership. We'll use unique_ptr's.
+Want to pass ownership. We'll use unique_ptr's.<br>
+The traditional way it to use raw pointers. :(
+We'll look at raw pointers if we have time.
 
 
 ###### Pass ownership using unique_ptr...
