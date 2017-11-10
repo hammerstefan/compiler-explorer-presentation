@@ -13,3 +13,4 @@ git clone --depth=1 https://github.com/hammerstefan/docker-reveal.js.git
 cd docker-reveal.js
 HTTP_ROOT=../compiler-explorer-presentation docker-compose up
 ```
+Then view the slides at http://localhost:8001
