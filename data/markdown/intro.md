@@ -29,6 +29,8 @@ Notes: CppCon2017 talk. Matt Godbolt.
 * Learning aid 				<!--.element: class="fragment"-->
 
 [http://godbolt.org](http://godbolt.org)
+Notes:
+CE is a web based tool that wraps compiler, investigation tool, and learning aid into one package.
 
 
 ## Compiler
