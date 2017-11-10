@@ -276,7 +276,8 @@ Notes:
 https://goo.gl/qJgf1A
 
 
-#### Raw pointers?
+
+## Raw pointers?
 Change `unique_ptr` to `Ship*`
 
 Who has ownership?
@@ -288,6 +289,7 @@ Who has ownership?
 </iframe>
 Notes:
 https://goo.gl/1kQ6ML
+
 
 
 ## `std::shared_ptr<T>`
@@ -328,6 +330,7 @@ Change from `unique_ptr` to `shared_ptr`. GCC was able to optimize `unique_ptr`s
 </iframe>
 Notes:
 https://goo.gl/RZdJqs
+
 
 
 ## Ownership via stack
