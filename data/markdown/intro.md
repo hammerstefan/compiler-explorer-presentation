@@ -1,6 +1,6 @@
 <pre style="font-size:20px">
 <code class="c++" data-noescape>
-class <span style="font-size:80px">COMPILER EXPLORER</span> 
+class <span style="font-size:74px">COMPILER EXPLORER</span> 
 {
 public:
     std::string author = "<span style="font-size:50px">Stefan Hammer</span>";<br>
@@ -10,9 +10,7 @@ private:
     virtual void show_godbolt() noexcept;
     virtual void teach_asm() noexcept;
     virtual void live_demo(); //throws
-<span style="display:inline-block;position:relative;background:url(/data/images/squig.gif) bottom repeat-x;">}</span>
-</code>
-</pre>
+<span style="display:inline-block;position:relative;background:url(/data/images/squig.gif) bottom repeat-x;">}</span></code></pre>
 
 <small><a href="http://shammer-linux.adtran.com:8001"/>shammer-linux.adtran.com:8001</small>
 
