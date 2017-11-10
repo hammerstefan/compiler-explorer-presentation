@@ -220,7 +220,7 @@ SKIP IF NEED TIME.<br>
 
 
 ## `std::unique_ptr<T>`
-![Serenity](/data/images/firefly_class_ship.jpg) <!-- .element style="width:400px" -->
+![Serenity](/data/images/firefly_top.jpg)
 
 
 #### Pass ownership using unique_ptr
@@ -279,10 +279,6 @@ https://goo.gl/qJgf1A
 
 
 ## Raw pointers?
-![Reavers](/data/images/reavers.jpg) <!-- .element style="width:400px" -->
-
-
-## Raw pointers...
 Change `unique_ptr` to `Ship*`
 
 Who has ownership?
@@ -299,7 +295,6 @@ https://goo.gl/1kQ6ML
 
 ## `std::shared_ptr<T>`
 #### Shared ownership
-![Alliance cruiser](/data/images/alliance_cruiser.png) <!-- .element style="width:400px" -->
 
 
 ###### Shared Ship
@@ -369,7 +364,6 @@ https://goo.gl/keL4Vi
 
 
 ## Comparing Compilers
-![Vera](/data/images/vera.jpg) <!-- .element style="height:400px" -->
 
 
 ###### GCC 4.9 vs 7.2 (unique_ptr)
