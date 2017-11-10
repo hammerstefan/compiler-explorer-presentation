@@ -1,6 +1,6 @@
 <pre style="font-size:20px">
 <code class="c++" data-noescape>
-class <span style="font-size:74px">COMPILER EXPLORER</span> 
+class <span style="font-size:74px">COMPILER_EXPLORER</span> 
 {
 public:
     std::string author = "<span style="font-size:50px">Stefan Hammer</span>";<br>
